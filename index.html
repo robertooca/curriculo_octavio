@@ -49,8 +49,8 @@
       color: #a6a6a6;
       text-decoration: none;
       font-weight: bold;
-      padding: 0 1rem; /* Adicionei padding para separar os links */
-      white-space: nowrap; /* Impede que as palavras quebrem */
+      padding: 0 1rem;
+      white-space: nowrap;
     }
 
     section {
@@ -137,14 +137,12 @@
       margin-bottom: 3rem;
     }
 
-    /* Menu Hambúrguer */
     .hamburger {
       display: none;
       cursor: pointer;
       padding: 10px;
     }
 
-    /* Animação do hambúrguer para X */
     .hamburger div {
       width: 25px;
       height: 3px;
@@ -636,7 +634,6 @@
           img.classList.toggle("active", i === index);
         });
       
-        // Mostra "antes" apenas na primeira foto
         if (index === 0) {
           antesText.style.display = "block";
         } else {
@@ -661,7 +658,6 @@
       });
     });
 
-    // Menu Hambúrguer
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
 
@@ -670,17 +666,15 @@
       hamburger.classList.toggle('active');
     });
 
-    // Fechar menu quando um link for clicado
     document.querySelectorAll('#navLinks a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
-        hamburger.classList.remove('active'); // Esta linha estava faltando
+        hamburger.classList.remove('active');
       });
     });
   </script>
   
   <style>
-    /* Adicionando animações para o menu hambúrguer */
     .rotate-down {
       transform: rotate(45deg) translate(5px, 5px);
     }
