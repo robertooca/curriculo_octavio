@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title>Octavio Albuquerque - Eng. Civil</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #a6a6a6;
+      color: #505050;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: #505050;
+      color: #a6a6a6;
+      padding: 1rem 2rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .logo {
+      position: absolute;
+      left: 5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100px;
+      height: 100px;
+    }
+
+    nav {
+      background: #505050;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav a {
+      color: #a6a6a6;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0 1rem; /* Adicionei padding para separar os links */
+      white-space: nowrap; /* Impede que as palavras quebrem */
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: #a6a6a6;
+      background: #505050;
+    }
+
+    .carousel {
+      position: relative;
+      max-width: 500px;
+      height: 500px;
+      overflow: hidden;
+      margin-top: 1rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .carousel img.active {
+      display: block;
+    }
+
+    .antes {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background: #505050;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 18px;
+      z-index: 10;
+    }
+
+    .depois {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background: #505050;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 18px;
+      z-index: 10;
+    }
+
+    .carousel button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #505050;
+      color: #fff;
+      border: none;
+      font-size: 1.5rem;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+
+    .carousel .prev {
+      left: 10px;
+    }
+
+    .carousel .next {
+      right: 10px;
+    }
+
+    .projeto {
+      margin-bottom: 3rem;
+    }
+
+    /* Menu Hambúrguer */
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    /* Animação do hambúrguer para X */
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #a6a6a6;
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+  
+    .hamburger.active div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 6px);
+    }
+  
+    .hamburger.active div:nth-child(2) {
+      opacity: 0;
+    }
+  
+    .hamburger.active div:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -6px);
+    }
+
+    .nav-links {
+      display: flex;
+    }
+
+    @media (max-width: 900px) {
+      .logo {
+        position: static;
+        display: block;
+        margin: 0 auto 1rem auto;
+        transform: none;
+        width: 80px;
+        height: 80px;
+      }
+
+      .hamburger {
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+
+      .nav-links {
+        position: fixed;
+        right: 0;
+        top: 80px;
+        background: #505050;
+        height: calc(100vh - 80px);
+        width: 200px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 20px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in;
+      }
+
+      .nav-links.active {
+        transform: translateX(0);
+      }
+
+      nav {
+        padding: 0rem;
+        position: relative;
+      }
+
+      nav a {
+        margin: 1rem 0;
+      }
+
+      section {
+        padding: 1rem;
+      }
+
+      .carousel {
+        max-width: 70%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        margin: 1rem auto;
+      }
+
+      .carousel button {
+        font-size: 1.2rem;
+        padding: 0.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="lupa.png" alt="Ícone de lupa" class="logo">
+    <h1>Octavio Albuquerque</h1>
+    <div class="hamburger" id="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav-links" id="navLinks">
+      <a href="#formações">Formações</a>
+      <a href="#especialidades">Especialidades</a>
+      <a href="#experiencias">Experiências</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#contato">Contato</a>
+    </div>
+  </nav>
+
+  <section id="formações">
+    <h2>Formações</h2>
+    <li>Engenheiro Civil - CREA: PE 042174</li>
+    <li>Perito Judicial</li>
+    <li>Assistente Técnico</li>
+  </section>
+
+  <section id="especialidades">
+    <h2>Especialidades</h2>
+    <li>Avaliações Imobiliárias</li>
+    <li>Perícia Técnica: Consumo de Água e Energia</li>
+  </section>
+
+  <section id="experiencias">
+    <h2>Experiências</h2>
+    <h4>Coordenador de Obras</h4>
+    <ul>
+      <li>Edifícios Residenciais</li>
+      <li>Edifícios Empresariais</li>
+      <li>Concessionárias Automotivas</li>
+      <li>Centros Educacionais</li>
+      <li>Indústrias</li>
+      <li>Termoelétricas</li>
+    </ul>
+    <h4>Engenheiro Autônomo</h4>
+    <ul>
+      <li>Reformas e Ampliação em Sistemas de Jornal, Rádio e TV</li>
+      <li>Execução de Postos de Combustível</li>
+      <li>Execução de Obras Residenciais de Veraneio</li>
+      <li>Reformas em Residências de Veraneio e Campo</li>
+      <li>Reformas em Apartamentos Residenciais</li>
+      <li>Reformas em Lojas Comerciais (Shoppings)</li>
+      <li>Laudos de Vistoria em Imóveis Residenciais e Comerciais</li>
+    </ul>
+  </section>
+
+  <section id="projetos">
+    <h2>Projetos</h2>
+
+    <div class="projeto">
+      <h4>Sistema Jornal do Commercio de Comunicação</h4>
+
+      <div class="carousel">
+        <span class="antes">Antes</span>
+        <span class="depois">Depois</span>
+        <img src="SISTEMA JORNAL DO COMMERCIO DE COMUNICAÇÃO/DSC00242.JPG" class="active">
+        <img src="SISTEMA JORNAL DO COMMERCIO DE COMUNICAÇÃO/DSC00821.JPG">
+        <img src="SISTEMA JORNAL DO COMMERCIO DE COMUNICAÇÃO/DSC00994.JPG">
+        <img src="SISTEMA JORNAL DO COMMERCIO DE COMUNICAÇÃO/DSC01006.JPG">
+        <img src="SISTEMA JORNAL DO COMMERCIO DE COMUNICAÇÃO/DSC02413.JPG">
+        <img src="SISTEMA JORNAL DO COMMERCIO DE COMUNICAÇÃO/DSC02421.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <h3>Apartamentos</h3>
+
+    <div class="projeto">
+      <h4>Apartamento 1 Boa Viagem</h4>
+
+      <div class="carousel">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 01/DSC00756.JPG" class="active">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 01/DSC00757.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 01/DSC00770.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Apartamento 2 Boa Viagem</h4>
+
+      <div class="carousel">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 02/DSC00607.JPG" class="active">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 02/DSC00609.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 02/DSC00618.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 02/DSC00624.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 02/DSC00647.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 02/DSC01521.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Apartamento 3 Boa Viagem</h4>
+
+      <div class="carousel">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 03/DSC00885.JPG" class="active">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 03/DSC00887.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 03/DSC00915.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Apartamento 4 Boa Viagem</h4>
+
+      <div class="carousel">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 04/IMG_20170811_112424587.jpg" class="active">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 04/IMG_20170814_113221969_HDR.jpg">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 04/IMG_20170815_143257943_HDR.jpg">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 04/IMG_20170815_143303949.jpg">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 04/IMG_20170815_143324352.jpg">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Apartamento 5 Boa Viagem</h4>
+
+      <div class="carousel">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 05/DSC05615.JPG" class="active">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 05/DSC05600.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 05/DSC05604.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 05/DSC05612.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 05/DSC05185.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Apartamento 6 Boa Viagem</h4>
+
+      <div class="carousel">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 06/DSC06557.JPG" class="active">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 06/DSC06577.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 06/DSC06582.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 06/DSC06640.JPG">
+        <img src="APARTAMENTOS/BOA VIAGEM - RECIFE - PE/APARTAMENTO - 06/DSC06647.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Apartamento Pina</h4>
+
+      <div class="carousel">
+        <img src="APARTAMENTOS/PINA - RECIFE - PE/IMG_20180529_120439789.jpg" class="active">
+        <img src="APARTAMENTOS/PINA - RECIFE - PE/IMG_20180529_120538333.jpg">
+        <img src="APARTAMENTOS/PINA - RECIFE - PE/IMG_20180529_120546680_HDR.jpg">
+        <img src="APARTAMENTOS/PINA - RECIFE - PE/IMG_20180529_120559334.jpg">
+        <img src="APARTAMENTOS/PINA - RECIFE - PE/IMG_20180529_120630221.jpg">
+        <img src="APARTAMENTOS/PINA - RECIFE - PE/IMG_20180529_120649368.jpg">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Apartamento 1 Setúbal</h4>
+
+      <div class="carousel">
+        <img src="APARTAMENTOS/SETÚBAL - RECIFE - PE/APARTAMENTO - 01/IMG_2576.JPG" class="active">
+        <img src="APARTAMENTOS/SETÚBAL - RECIFE - PE/APARTAMENTO - 01/IMG_2583.JPG">
+        <img src="APARTAMENTOS/SETÚBAL - RECIFE - PE/APARTAMENTO - 01/IMG_2720.JPG">
+        <img src="APARTAMENTOS/SETÚBAL - RECIFE - PE/APARTAMENTO - 01/IMG_2724.JPG">
+        <img src="APARTAMENTOS/SETÚBAL - RECIFE - PE/APARTAMENTO - 01/IMG_2730.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Apartamento 2 Setúbal</h4>
+
+      <div class="carousel">
+        <img src="APARTAMENTOS/SETÚBAL - RECIFE - PE/APARTAMENTO - 02/IMAGEM - 01.jpg" class="active">
+        <img src="APARTAMENTOS/SETÚBAL - RECIFE - PE/APARTAMENTO - 02/IMAGEM - 02.jpg">
+        <img src="APARTAMENTOS/SETÚBAL - RECIFE - PE/APARTAMENTO - 02/IMAGEM - 03.jpg">
+        <img src="APARTAMENTOS/SETÚBAL - RECIFE - PE/APARTAMENTO - 02/IMAGEM - 04.jpg">
+        <img src="APARTAMENTOS/SETÚBAL - RECIFE - PE/APARTAMENTO - 02/IMAGEM - 05.jpg">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <h3>Casas de Campo</h3>
+
+    <div class="projeto">
+      <h4>Aldeia</h4>
+
+      <div class="carousel">
+        <img src="CASAS DE CAMPO/ALDEIA - PE/DSC00656.JPG" class="active">
+        <img src="CASAS DE CAMPO/ALDEIA - PE/DSC00666.JPG">
+        <img src="CASAS DE CAMPO/ALDEIA - PE/DSC00671.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Gravatá</h4>
+
+      <div class="carousel">
+        <img src="CASAS DE CAMPO/GRAVATÁ - PE/DSC00009.JPG" class="active">
+        <img src="CASAS DE CAMPO/GRAVATÁ - PE/DSC00098.JPG">
+        <img src="CASAS DE CAMPO/GRAVATÁ - PE/DSC02074.JPG">
+        <img src="CASAS DE CAMPO/GRAVATÁ - PE/DSC09914.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <h3>Casas de Praia</h3>
+
+    <div class="projeto">
+      <h4>Enseadinha</h4>
+
+      <div class="carousel">
+        <img src="CASAS DE PRAIA/ENSEADINHA - PE/DSC00029-1.JPG" class="active">
+        <img src="CASAS DE PRAIA/ENSEADINHA - PE/DSC00030-1.JPG">
+        <img src="CASAS DE PRAIA/ENSEADINHA - PE/DSC00034-1.JPG">
+        <img src="CASAS DE PRAIA/ENSEADINHA - PE/DSC00036-1.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Serrambi</h4>
+
+      <div class="carousel">
+        <img src="CASAS DE PRAIA/SERRAMBÍ -PE/DSC02585.JPG" class="active">
+        <img src="CASAS DE PRAIA/SERRAMBÍ -PE/DSC03047.JPG">
+        <img src="CASAS DE PRAIA/SERRAMBÍ -PE/DSC03067.JPG">
+        <img src="CASAS DE PRAIA/SERRAMBÍ -PE/DSC03069.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Toquinho 1</h4>
+
+      <div class="carousel">
+        <img src="CASAS DE PRAIA/TOQUINHO - PE/CASA - 01/DSC00016.JPG" class="active">
+        <img src="CASAS DE PRAIA/TOQUINHO - PE/CASA - 01/DSC00018.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Toquinho 2</h4>
+
+      <div class="carousel">
+        <img src="CASAS DE PRAIA/TOQUINHO - PE/CASA - 02/DSC02700.JPG" class="active">
+        <img src="CASAS DE PRAIA/TOQUINHO - PE/CASA - 02/DSC02757.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <h3>Comércio</h3>
+
+    <div class="projeto">
+      <h4>Bar Temático</h4>
+
+      <div class="carousel">
+        <img src="COMÉRCIO/BAR TEMÁTICO - RECIFE - PE/DSC01752.JPG" class="active">
+        <img src="COMÉRCIO/BAR TEMÁTICO - RECIFE - PE/DSC01753.JPG">
+        <img src="COMÉRCIO/BAR TEMÁTICO - RECIFE - PE/DSC01761.JPG">
+        <img src="COMÉRCIO/BAR TEMÁTICO - RECIFE - PE/DSC01764.JPG">
+        <img src="COMÉRCIO/BAR TEMÁTICO - RECIFE - PE/DSC01772.JPG">
+        <img src="COMÉRCIO/BAR TEMÁTICO - RECIFE - PE/DSC01773.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Delicatessen Boa Viagem</h4>
+
+      <div class="carousel">
+        <img src="COMÉRCIO/DELICATESSEN - RECIFE - PE/DELICATESSEN - BOA VIAGEM - RECIFE - PE/IMG_20170310_111104523.jpg" class="active">
+        <img src="COMÉRCIO/DELICATESSEN - RECIFE - PE/DELICATESSEN - BOA VIAGEM - RECIFE - PE/IMG_20170310_111155366.jpg">
+        <img src="COMÉRCIO/DELICATESSEN - RECIFE - PE/DELICATESSEN - BOA VIAGEM - RECIFE - PE/IMG_20170310_111526793.jpg">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Delicatessen Jaqueira</h4>
+
+      <div class="carousel">
+        <span class="antes">Antes</span>
+        <span class="depois">Depois</span>
+        <img src="COMÉRCIO/DELICATESSEN - RECIFE - PE/DELICATESSEN - JAQUEIRA - RECIFE -PE/DELICATESSEN - 01 - JAQUEIRA - RECIFE - PE.jpeg" class="active">
+        <img src="COMÉRCIO/DELICATESSEN - RECIFE - PE/DELICATESSEN - JAQUEIRA - RECIFE -PE/DELICATESSEN - 02 - JAQUEIRA - RECIFE - PE.jpeg">
+        <img src="COMÉRCIO/DELICATESSEN - RECIFE - PE/DELICATESSEN - JAQUEIRA - RECIFE -PE/DELICATESSEN - 03 - JAQUEIRA - RECIFE - PE.jpeg">
+        <img src="COMÉRCIO/DELICATESSEN - RECIFE - PE/DELICATESSEN - JAQUEIRA - RECIFE -PE/DELICATESSEN - 04 - JAQUEIRA - RECIFE - PE.jpeg">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <h3>Centro Educacional</h3>
+
+    <div class="projeto">
+      <h4>Centro Escolar Carochinha</h4>
+
+      <div class="carousel">
+        <span class="antes">Antes</span>
+        <span class="depois">Depois</span>
+        <img src="ESCOLA/CAROCHINHA/DSC02030.JPG" class="active">
+        <img src="ESCOLA/CAROCHINHA/PHOTO-2025-05-18-13-54-39.jpg">
+        <img src="ESCOLA/CAROCHINHA/IMG_20171016_113554420_HDR.jpg">
+        <img src="ESCOLA/CAROCHINHA/IMG_20171110_092125589.jpg">
+        <img src="ESCOLA/CAROCHINHA/IMG-20170213-WA0018.jpg">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <h3>Obras Industriais</h3>
+
+    <div class="projeto">
+      <h4>Fábrica Pamesa</h4>
+
+      <div class="carousel">
+        <img src="OBRAS INDUSTRIAIS/FÁBRICA PAMESA - SUAPE - PE/DSC00410.JPG" class="active">
+        <img src="OBRAS INDUSTRIAIS/FÁBRICA PAMESA - SUAPE - PE/DSC00408.JPG">
+        <img src="OBRAS INDUSTRIAIS/FÁBRICA PAMESA - SUAPE - PE/DSC00415.JPG">
+        <img src="OBRAS INDUSTRIAIS/FÁBRICA PAMESA - SUAPE - PE/DSC00404.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+    <div class="projeto">
+      <h4>Termoelétrica EBRASIL</h4>
+
+      <div class="carousel">
+        <img src="OBRAS INDUSTRIAIS/TERMOELÉTRICA EBRASIL - PAU FERRO - PE/DSC07363.JPG" class="active">
+        <img src="OBRAS INDUSTRIAIS/TERMOELÉTRICA EBRASIL - PAU FERRO - PE/DSC07607.JPG">
+        <img src="OBRAS INDUSTRIAIS/TERMOELÉTRICA EBRASIL - PAU FERRO - PE/DSC07630.JPG">
+        <img src="OBRAS INDUSTRIAIS/TERMOELÉTRICA EBRASIL - PAU FERRO - PE/DSC07632.JPG">
+        <img src="OBRAS INDUSTRIAIS/TERMOELÉTRICA EBRASIL - PAU FERRO - PE/DSC07653.JPG">
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+      </div>
+    </div>
+
+
+  </section>
+
+  <section id="contato">
+    <h2>Contato</h2>
+    <p>E-mail: octavioeng12@email.com</p>
+    <p>Telefone: (81) 98555-1212</p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/octavio-albuquerque-85a49037b/" target="_blank">linkedin.com/in/octavioalbuquerque</a></p>
+    <p>Local: Recife-PE</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Octavio Albuquerque. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    const carousels = document.querySelectorAll('.carousel');
+    
+  
+    carousels.forEach(carousel => {
+      const images = carousel.querySelectorAll('img');
+      const prevButton = carousel.querySelector('.prev');
+      const nextButton = carousel.querySelector('.next');
+      const antesText = carousel.querySelector(".antes");
+      const depoisText = carousel.querySelector(".depois");
+      let currentIndex = 0;
+  
+      function showImage(index) {
+        images.forEach((img, i) => {
+          img.classList.toggle("active", i === index);
+        });
+      
+        // Mostra "antes" apenas na primeira foto
+        if (index === 0) {
+          antesText.style.display = "block";
+        } else {
+          antesText.style.display = "none";
+        }
+
+        if (index === 1) {
+          depoisText.style.display = "block";
+        } else {
+          depoisText.style.display = "none";
+        }
+      }
+  
+      prevButton.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+      });
+  
+      nextButton.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+      });
+    });
+
+    // Menu Hambúrguer
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      hamburger.classList.toggle('active');
+    });
+
+    // Fechar menu quando um link for clicado
+    document.querySelectorAll('#navLinks a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        hamburger.classList.remove('active'); // Esta linha estava faltando
+      });
+    });
+  </script>
+  
+  <style>
+    /* Adicionando animações para o menu hambúrguer */
+    .rotate-down {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    .rotate-up {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    
+    .hide {
+      opacity: 0;
+    }
+  </style>
+
+</body>
+</html>
